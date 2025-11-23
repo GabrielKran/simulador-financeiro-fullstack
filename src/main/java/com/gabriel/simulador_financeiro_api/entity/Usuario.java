@@ -1,4 +1,4 @@
-package entity;
+package com.gabriel.simulador_financeiro_api.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
