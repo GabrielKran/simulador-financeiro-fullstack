@@ -1,10 +1,15 @@
 package com.gabriel.simulador_financeiro_api.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,6 +27,10 @@ public class Usuario {
 
     @Column(nullable=false)
     private String senha;
+
+    @OneToMany(mappedBy="usuario")
+    @JsonIgnore
+    private List<PlanoFinanceiro> planos;
 
     public Usuario(){
 
@@ -63,5 +72,13 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public List<PlanoFinanceiro> getPlanos() {
+        return planos;
+    }
+
+    public void setPlanos(List<PlanoFinanceiro> planos) {
+        this.planos = planos;
     }
 }

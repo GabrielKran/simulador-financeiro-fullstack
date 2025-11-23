@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,8 +17,9 @@ public class PlanoFinanceiro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
-    @Column(nullable=false)
-    private long usuarioId;
+    @ManyToOne
+    @JoinColumn(name="usuario_id", nullable=false)
+    private Usuario usuario;
     
     @Column(nullable=false)
     private String nomePlano;
@@ -30,7 +33,8 @@ public class PlanoFinanceiro {
     @Column(nullable=false)
     private double taxaJurosAnual;
 
-    public PlanoFinanceiro(String nomePlano, double metaValor, double aporteMensal, double taxaJurosAnual) {
+    public PlanoFinanceiro(Usuario usuario, String nomePlano, double metaValor, double aporteMensal, double taxaJurosAnual) {
+        this.usuario = usuario;
         this.nomePlano = nomePlano;
         this.metaValor = metaValor;
         this.aporteMensal = aporteMensal;
@@ -38,15 +42,15 @@ public class PlanoFinanceiro {
     }
 
     public PlanoFinanceiro() {
-        
+
     }
 
     public long getId() {
         return id;
     }
 
-    public long getUsuarioId() {
-        return usuarioId;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
     public String getNomePlano() {
@@ -69,8 +73,8 @@ public class PlanoFinanceiro {
         this.id = id;
     }
 
-    public void setUsuarioId(long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public void setNomePlano(String nomePlano) {
