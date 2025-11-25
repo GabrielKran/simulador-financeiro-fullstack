@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gabriel.simulador_financeiro_api.entity.PlanoFinanceiro;
 import com.gabriel.simulador_financeiro_api.repository.PlanoFinanceiroRepository;
+
 @RestController
 @RequestMapping("/planos-financeiros")
 @CrossOrigin(origins = "*")
@@ -35,5 +37,11 @@ public class PlanoFinanceiroController {
     @DeleteMapping("/{id}")
     public void deletePlanoFinanceiro(@PathVariable Long id) {
         repository.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public PlanoFinanceiro putPlanoFinanceiro(@PathVariable Long id, @RequestBody PlanoFinanceiro planoFinanceiro) {
+        planoFinanceiro.setId(id);
+        return repository.save(planoFinanceiro);
     }
 }

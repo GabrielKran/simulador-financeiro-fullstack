@@ -130,7 +130,7 @@ input {
     margin-top: 10px;
 }
 
-.card-plano .btn-access {
+.card-plano .btn-edit {
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -151,11 +151,11 @@ input {
     color: white;
 }
 
-.card-plano .btn-access:hover, .btn-delete:hover{
+.card-plano .btn-edit:hover, .btn-delete:hover{
     transform: scale(1.05);
 }
 
-.card-plano .btn-access:active, .btn-delete:active{
+.card-plano .btn-edit:active, .btn-delete:active{
     transform: scale(0.98);
     transition: 0.1s;
 }

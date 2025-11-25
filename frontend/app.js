@@ -1,10 +1,14 @@
 const URL_API_PLANO = "http://localhost:8080/planos-financeiros";
 
+let planosMemoriaLocal = [];
+let idEmEdicao = null;
+
 async function carregarPlanos() {
     try {
         
         const resposta = await fetch(URL_API_PLANO);
         const planos = await resposta.json();
+        planosMemoriaLocal = planos;
 
         const divLista = document.getElementById("lista-planos");
         divLista.innerHTML = "";
@@ -18,8 +22,8 @@ async function carregarPlanos() {
                 <p><strong>Dono: </strong>${plano.usuario.nome}</p>
 
                 <div class="btns">
-                    <button class="btn-access">
-                        Acessar
+                    <button onclick="prepararEdicao(${plano.id})" class="btn-edit">
+                        Editar
                     </button>
                     
                     <button onclick="deletePlano(${plano.id})" class="btn-delete">
@@ -35,42 +39,77 @@ async function carregarPlanos() {
     }
 }
 
-async function criarPlano() {
+function prepararEdicao(id) {
+    const plano = planosMemoriaLocal.find(p => p.id === id);
+
+    if (plano) {
+        document.getElementById("nomePlano").value = plano.nomePlano;
+        document.getElementById("metaValor").value = plano.metaValor;
+        document.getElementById("aporteMensal").value = plano.aporteMensal;
+        document.getElementById("taxaJuros").value = plano.taxaJurosAnual;
+
+        idEmEdicao = id;
+        document.querySelector(".btn-save").innerText = "Atualizar Plano";
+    }
+
+}
+
+async function salvarPlano() {
 
     const nome = document.getElementById("nomePlano").value;
     const meta = document.getElementById("metaValor").value;
     const aporte = document.getElementById("aporteMensal").value;
     const juros = document.getElementById("taxaJuros").value;
-
+    
     const novoPlano = {
         nomePlano: nome,
         metaValor: meta,
         aporteMensal: aporte,
         taxaJurosAnual: juros,
 
+        //Para teste todos devem ser Joao
         usuario: {id: 1}
+    }
+
+    let method = "POST";
+    let url = URL_API_PLANO;
+
+    if (idEmEdicao !== null) {
+        method = "PUT";
+        url = `${URL_API_PLANO}/${idEmEdicao}`;
     }
 
     try {
         
-        const resposta = await fetch(URL_API_PLANO, {
-            method: "POST",
+        const resposta = await fetch(url, {
+            method: method,
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(novoPlano)
         });
 
         if(resposta.ok) {
-            alert("Plano adicionado com sucesso");
+            alert("Plano salvo com sucesso");
+            limparInput();
             carregarPlanos();
 
         } else {
-            alert("Erro ao adicionar Plano");
+            alert("Erro ao salvar Plano");
 
         }
         
     } catch (error) {
-        console.error("Erro na aplicação POST", error);
+        console.error("Erro ao salvar", error);
     }
+}
+
+function limparInput() {
+    document.getElementById("nomePlano").value = "";
+    document.getElementById("metaValor").value = "";
+    document.getElementById("aporteMensal").value = "";
+    document.getElementById("taxaJuros").value = "";
+
+    idEmEdicao = null;
+    document.querySelector(".btn-save").innerText = "Salvar Plano";
 }
 
 async function deletePlano(id) {
