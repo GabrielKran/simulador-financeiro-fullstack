@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gabriel.simulador_financeiro_api.entity.PlanoFinanceiro;
-import com.gabriel.simulador_financeiro_api.repository.PlanoFinanceiroRepository;
+import com.gabriel.simulador_financeiro_api.service.PlanoFinanceiroService;
 
 @RestController
 @RequestMapping("/planos-financeiros")
@@ -22,26 +22,25 @@ import com.gabriel.simulador_financeiro_api.repository.PlanoFinanceiroRepository
 public class PlanoFinanceiroController {
 
     @Autowired
-    private PlanoFinanceiroRepository repository;
+    private PlanoFinanceiroService service;
 
     @GetMapping
     public List<PlanoFinanceiro> getPlanoFinanceiro() {
-        return repository.findAll();
+        return service.searchAll();
     }
 
     @PostMapping
     public PlanoFinanceiro postPlanoFinanceiro(@RequestBody PlanoFinanceiro planoFinanceiro) {
-        return repository.save(planoFinanceiro);
+        return service.save(planoFinanceiro);
     }
 
     @DeleteMapping("/{id}")
     public void deletePlanoFinanceiro(@PathVariable Long id) {
-        repository.deleteById(id);
+        service.delete(id);
     }
 
     @PutMapping("/{id}")
     public PlanoFinanceiro putPlanoFinanceiro(@PathVariable Long id, @RequestBody PlanoFinanceiro planoFinanceiro) {
-        planoFinanceiro.setId(id);
-        return repository.save(planoFinanceiro);
+        return service.edit(id, planoFinanceiro);
     }
 }

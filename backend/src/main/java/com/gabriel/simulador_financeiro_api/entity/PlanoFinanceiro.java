@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
+import jakarta.persistence.Transient;
 @Entity
 @Table(name = "Plano_financeiro")
 public class PlanoFinanceiro {
@@ -32,6 +32,9 @@ public class PlanoFinanceiro {
 
     @Column(nullable=false)
     private double taxaJurosAnual;
+
+    @Transient
+    private Integer mesesEstimados;
 
     public PlanoFinanceiro(Usuario usuario, String nomePlano, double metaValor, double aporteMensal, double taxaJurosAnual) {
         this.usuario = usuario;
@@ -91,5 +94,13 @@ public class PlanoFinanceiro {
 
     public void setTaxaJurosAnual(double taxaJurosAnual) {
         this.taxaJurosAnual = taxaJurosAnual;
+    }
+
+    public Integer getMesesEstimados() {
+        return mesesEstimados;
+    }
+
+    public void setMesesEstimados(Integer mesesEstimados) {
+        this.mesesEstimados = mesesEstimados;
     }
 }
