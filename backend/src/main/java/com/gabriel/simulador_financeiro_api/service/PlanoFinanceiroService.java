@@ -13,7 +13,14 @@ public class PlanoFinanceiroService {
     private PlanoFinanceiroRepository repository;
 
     public List<PlanoFinanceiro> searchAll() {
-        return repository.findAll();
+        List<PlanoFinanceiro> planoLista = repository.findAll();
+
+        for (PlanoFinanceiro p : planoLista) {
+            int meses = timeCalc(p);
+            p.setMesesEstimados(meses);
+        }
+
+        return planoLista;
     }
 
     public PlanoFinanceiro save(PlanoFinanceiro plano) {
@@ -30,6 +37,21 @@ public class PlanoFinanceiroService {
     }
 
     public int timeCalc(PlanoFinanceiro plano) {
-        return 0;
+        if (plano.getAporteMensal() <= 0) return 0;
+
+        double taxaJurosMensal = (plano.getTaxaJurosAnual() / 100) / 12;
+        int contadorMeses = 0;
+        double saldo = 0;
+
+        while (saldo < plano.getMetaValor()) {
+            saldo += plano.getAporteMensal();
+            saldo = saldo + (saldo * taxaJurosMensal);
+
+            contadorMeses += 1;
+            if (contadorMeses > 1000) {
+                break;
+            }
+        }
+        return contadorMeses;
     }
 }
