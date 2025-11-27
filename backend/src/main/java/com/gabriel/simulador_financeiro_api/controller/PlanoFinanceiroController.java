@@ -3,6 +3,7 @@ package com.gabriel.simulador_financeiro_api.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +29,19 @@ public class PlanoFinanceiroController {
     public List<PlanoFinanceiro> getPlanoFinanceiro() {
         return service.searchAll();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PlanoFinanceiro> getPlanoById(@PathVariable Long id) {
+        PlanoFinanceiro plano = service.searchById(id);
+        
+        if (plano != null) {
+            return ResponseEntity.ok(plano);
+
+        } else  {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
 
     @PostMapping
     public PlanoFinanceiro postPlanoFinanceiro(@RequestBody PlanoFinanceiro planoFinanceiro) {

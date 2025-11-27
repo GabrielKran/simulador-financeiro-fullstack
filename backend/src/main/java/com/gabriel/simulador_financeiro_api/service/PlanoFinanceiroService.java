@@ -1,10 +1,12 @@
 package com.gabriel.simulador_financeiro_api.service;
 
-import com.gabriel.simulador_financeiro_api.repository.PlanoFinanceiroRepository;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.gabriel.simulador_financeiro_api.entity.PlanoFinanceiro;
+import com.gabriel.simulador_financeiro_api.repository.PlanoFinanceiroRepository;
 
 @Service
 public class PlanoFinanceiroService {
@@ -13,14 +15,20 @@ public class PlanoFinanceiroService {
     private PlanoFinanceiroRepository repository;
 
     public List<PlanoFinanceiro> searchAll() {
-        List<PlanoFinanceiro> planoLista = repository.findAll();
+        return repository.findAll();
+    }
+    
+    public PlanoFinanceiro searchById(Long id) {
+        PlanoFinanceiro plano = repository.findById(id).orElse(null);
 
-        for (PlanoFinanceiro p : planoLista) {
-            int meses = timeCalc(p);
-            p.setMesesEstimados(meses);
+        if (plano != null) {
+            int meses = timeCalc(plano);
+            plano.setMesesEstimados(meses);
+            return plano;
+            
+        } else {
+            return null;
         }
-
-        return planoLista;
     }
 
     public PlanoFinanceiro save(PlanoFinanceiro plano) {

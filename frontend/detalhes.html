@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Plano</title>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="detalhes.js" defer></script>
+</head>
+<body>
+
+    <div class="container-grid">
+        
+        <a href="index.html" class="btn-back">← Voltar para Lista</a>
+
+        <header class="header-detalhes">
+            <h1 id="tituloPlano">Carregando...</h1>
+            <hr>
+        </header>
+
+        <div class="dashboard-grid">
+            
+            <aside class="sidebar">
+                <div class="card info-box">
+                    <small>META FINANCEIRA</small>
+                    <p id="meta">...</p>
+                </div>
+                <div class="card info-box">
+                    <small>APORTE MENSAL</small>
+                    <p id="aporte">...</p>
+                </div>
+                <div class="card info-box">
+                    <small>JUROS ANUAIS</small>
+                    <p id="juros">...</p>
+                </div>
+                <div class="card info-extra">
+                    <small>Status da Simulação</small>
+                    <p>Os cálculos consideram juros compostos sobre o aporte mensal. O gráfico ao lado será atualizado em tempo real.</p>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                
+                <div class="card previsao-box">
+                    <p class="info-card">Tempo Estimado para Conclusão</p>
+                    <p id="tempoTexto" class="p-tempo">Calculando...</p>
+                    <p>Baseado nos seus aportes atuais</p>
+                </div>
+
+                <div class="card grafico-box">
+                    <canvas id="meuGrafico"></canvas>
+                </div>
+
+            </main>
+
+        </div>
+    </div>
+
+</body>
+</html>

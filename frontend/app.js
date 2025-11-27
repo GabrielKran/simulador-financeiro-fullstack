@@ -16,17 +16,17 @@ async function carregarPlanos() {
         planos.forEach(plano => {
             divLista.innerHTML += 
             `
-            <div class="card-plano">
+            <div onclick="setUrlId(${plano.id})" class="card-plano">
                 <h3 id="nomePlano">${plano.nomePlano}</h3>
-                <p><strong>Meta: </strong>${plano.metaValor}</p>
+                <p><strong>Meta: </strong>${formatarNumero(plano.metaValor)}</p>
                 <p><strong>Dono: </strong>${plano.usuario.nome}</p>
 
                 <div class="btns">
-                    <button onclick="prepararEdicao(${plano.id})" class="btn-edit">
+                    <button onclick="event.stopPropagation(); prepararEdicao(${plano.id})" class="btn-edit">
                         Editar
                     </button>
                     
-                    <button onclick="deletePlano(${plano.id})" class="btn-delete">
+                    <button onclick="event.stopPropagation(); deletePlano(${plano.id})" class="btn-delete">
                         Deletar
                     </button>
                 </div>
@@ -132,6 +132,17 @@ async function deletePlano(id) {
             console.error("Erro na aplicação DELETE", error);
         }
     }
+}
+
+function setUrlId(id) {
+    window.location.href = `detalhes.html?id=${id}`;
+}
+
+function formatarNumero(valor) {
+    return new Intl.NumberFormat("pt-BR", {
+        currency: "BRL",
+        style: "currency"
+    }).format(valor);
 }
 
 carregarPlanos();

@@ -159,3 +159,147 @@ input {
     transform: scale(0.98);
     transition: 0.1s;
 }
+
+/* --- ESTILOS ESPECÍFICOS DA PÁGINA DE DETALHES --- */
+
+.container-grid {
+    width: 95%;
+    max-width: 1600px;
+    padding: 20px;
+}
+/* Botão Voltar */
+.btn-back {
+    display: inline-block;
+    text-decoration: none;
+    color: #666;
+    font-weight: bold;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-back:hover {
+    background-color: #d0d0d0;
+    color: #333;
+}
+
+/* Header específico */
+.header-detalhes h1 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.header-detalhes hr {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin-bottom: 30px;
+}
+
+/* --- GRID LAYOUT */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 550px 1fr;
+    gap: 20px;
+    align-items: start;
+    align-content: center;
+}
+
+/* --- SIDEBAR (Esquerda) --- */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.info-box {
+    /* Herda o estilo .card do seu CSS original, mas adiciona borda */
+    border-left: 5px solid #27ae60; /* Verde */
+    text-align: center;
+}
+
+.info-box small {
+    color: #888;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.8rem;
+}
+
+.info-box p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.info-extra {
+    background: #cbe5f5;
+    border: 1px solid #297fb962;
+    border-left: #2c7bf1 5px solid;
+}
+
+.info-extra small {
+    font-size: 1.01rem;
+    color: #1d427a;
+    font-weight: bold;
+}
+
+.info-extra p {
+    margin-top: 10px;
+    color: #154273;
+}
+
+/* --- CONTEÚDO PRINCIPAL (Direita) --- */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Caixa de Previsão (Azul) */
+.previsao-box {
+    background: linear-gradient(135deg, #2c7bf1, #2980b9); /* Azul */
+    color: white;
+    text-align: center;
+    border: none;
+    height: 225px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.previsao-box .info-card {
+    font-size: 0.9rem;
+    color: #ecf0f1ce;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.previsao-box .p-tempo {
+    font-size: 3.2rem;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.previsao-box :last-child {
+    font-size: 0.8rem;
+    color: #dfe6e9e1;
+}
+
+/* Caixa do Gráfico */
+.grafico-box {
+    height: 400px; /* Altura fixa para o gráfico aparecer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- RESPONSIVIDADE (Para celular) --- */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr; /* Vira uma coluna só */
+    }
+}
