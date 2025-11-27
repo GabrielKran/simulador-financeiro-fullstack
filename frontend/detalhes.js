@@ -1,4 +1,4 @@
-const params= new URLSearchParams(window.location.search);
+const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
 const URL_API_PLANO = "http://localhost:8080/planos-financeiros";
