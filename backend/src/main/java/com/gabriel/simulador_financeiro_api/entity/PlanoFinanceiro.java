@@ -1,5 +1,10 @@
 package com.gabriel.simulador_financeiro_api.entity;
 
+import java.util.UUID;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,8 +19,10 @@ import jakarta.persistence.Transient;
 public class PlanoFinanceiro {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(columnDefinition="char(36)")
+    @JdbcTypeCode(SqlTypes.CHAR)
+    private UUID id;
     
     @ManyToOne
     @JoinColumn(name="usuario_id", nullable=false)
@@ -24,13 +31,13 @@ public class PlanoFinanceiro {
     @Column(nullable=false)
     private String nomePlano;
 
-    @Column(nullable=false)
+    @Column(columnDefinition="decimal(15, 2)", nullable=false)
     private double metaValor;
 
-    @Column(nullable=false)
+    @Column(columnDefinition="decimal(15, 2)", nullable=false)
     private double aporteMensal;
 
-    @Column(nullable=false)
+    @Column(columnDefinition="decimal(5, 2)", nullable=false)
     private double taxaJurosAnual;
 
     @Transient
@@ -48,7 +55,7 @@ public class PlanoFinanceiro {
 
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -72,7 +79,7 @@ public class PlanoFinanceiro {
         return taxaJurosAnual;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

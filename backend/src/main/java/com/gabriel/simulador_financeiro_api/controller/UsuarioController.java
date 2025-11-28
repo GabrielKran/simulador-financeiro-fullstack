@@ -1,6 +1,7 @@
 package com.gabriel.simulador_financeiro_api.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,12 +36,12 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUsuario(@PathVariable Long id) {
+    public void deleteUsuario(@PathVariable UUID id) {
         service.delete(id);
     }
 
     @PutMapping("/{id}")
-    public Usuario putUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
+    public Usuario putUsuario(@PathVariable UUID id, @RequestBody Usuario usuario) {
         return service.edit(id, usuario);
     }
 }

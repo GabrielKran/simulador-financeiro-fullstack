@@ -1,6 +1,7 @@
 package com.gabriel.simulador_financeiro_api.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class PlanoFinanceiroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlanoFinanceiro> getPlanoById(@PathVariable Long id) {
+    public ResponseEntity<PlanoFinanceiro> getPlanoById(@PathVariable UUID id) {
         PlanoFinanceiro plano = service.searchById(id);
         
         if (plano != null) {
@@ -49,12 +50,12 @@ public class PlanoFinanceiroController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletePlanoFinanceiro(@PathVariable Long id) {
+    public void deletePlanoFinanceiro(@PathVariable UUID id) {
         service.delete(id);
     }
 
     @PutMapping("/{id}")
-    public PlanoFinanceiro putPlanoFinanceiro(@PathVariable Long id, @RequestBody PlanoFinanceiro planoFinanceiro) {
+    public PlanoFinanceiro putPlanoFinanceiro(@PathVariable UUID id, @RequestBody PlanoFinanceiro planoFinanceiro) {
         return service.edit(id, planoFinanceiro);
     }
 }

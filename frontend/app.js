@@ -16,7 +16,7 @@ async function carregarPlanos() {
         planos.forEach(plano => {
             divLista.innerHTML += 
             `
-            <div onclick="setUrlId(${plano.id})" class="card-plano">
+            <div onclick="setUrlId('${plano.id}')" class="card-plano">
                 <h3 id="nomePlano">${plano.nomePlano}</h3>
                 <p><strong>Meta: </strong>${formatarNumero(plano.metaValor)}</p>
                 <p><strong>Dono: </strong>${plano.usuario.nome}</p>
@@ -67,8 +67,8 @@ async function salvarPlano() {
         aporteMensal: aporte,
         taxaJurosAnual: juros,
 
-        //Para teste todos devem ser Joao
-        usuario: {id: 1}
+        //Para teste todos devem ser para Gabriel
+        usuario: {id: "54b38044-cc68-11f0-bdfd-b44506c330c6"}
     }
 
     let method = "POST";
