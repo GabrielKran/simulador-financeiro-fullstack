@@ -9,5 +9,6 @@ import com.gabriel.simulador_financeiro_api.entity.Usuario;
 
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
-    
+    Usuario findByEmail(String email);
+    boolean existsByEmail(String email);
 }

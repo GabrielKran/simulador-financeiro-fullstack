@@ -31,8 +31,4 @@ public class UsuarioService {
         usuario.setId(id);
         return repository.save(usuario);
     }
-
-    public int timeCalc(Usuario usuario) {
-        return 0;
-    }
 }

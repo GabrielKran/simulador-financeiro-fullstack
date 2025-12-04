@@ -1,0 +1,23 @@
+###
+@host = http://localhost:8080
+
+### FAZER LOGIN
+
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "gabriel@teste.com",
+    "senha": "1234"
+}
+
+###
+
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+    "nome": "admin",
+    "email": "admin@gmail.com",
+    "senha": "admin123"
+}
