@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gabriel.simulador_financeiro_api.entity.PlanoFinanceiro;
+import com.gabriel.simulador_financeiro_api.entity.Usuario;
 import com.gabriel.simulador_financeiro_api.repository.PlanoFinanceiroRepository;
 
 @Service
@@ -15,12 +16,19 @@ public class PlanoFinanceiroService {
     @Autowired
     private PlanoFinanceiroRepository repository;
 
-    public List<PlanoFinanceiro> searchAll() {
-        return repository.findAll();
+    public List<PlanoFinanceiro> searchByUsuario(Usuario usuario) {
+        List<PlanoFinanceiro> planos = repository.findByUsuario(usuario);
+
+        for (PlanoFinanceiro plano : planos) {
+            int meses = timeCalc(plano);
+            plano.setMesesEstimados(meses);
+        }
+
+        return planos;
     }
     
-    public PlanoFinanceiro searchById(UUID id) {
-        PlanoFinanceiro plano = repository.findById(id).orElse(null);
+    public PlanoFinanceiro searchByIdAndUsuario(UUID idPlano, Usuario usuario) {
+        PlanoFinanceiro plano = repository.findByIdAndUsuario(idPlano, usuario).orElse(null);
 
         if (plano != null) {
             int meses = timeCalc(plano);
@@ -32,20 +40,31 @@ public class PlanoFinanceiroService {
         }
     }
 
-    public PlanoFinanceiro save(PlanoFinanceiro plano) {
+    public PlanoFinanceiro save(PlanoFinanceiro plano, Usuario usuario) {
+        plano.setUsuario(usuario);
         return repository.save(plano);
     }
 
-    public void delete(UUID id) {
-        repository.deleteById(id);
+    public void delete(UUID idPlano, Usuario usuario) {
+        PlanoFinanceiro plano = repository.findByIdAndUsuario(idPlano, usuario)
+            .orElseThrow(() -> new RuntimeException("Erro ao deletar plano ou acesso negado"));
+
+        repository.delete(plano);
     }
 
-    public PlanoFinanceiro edit(UUID id, PlanoFinanceiro plano) {
-        plano.setId(id);
+    public PlanoFinanceiro edit(UUID idPlano, PlanoFinanceiro planoDados, Usuario usuario) {
+        PlanoFinanceiro plano = repository.findByIdAndUsuario(idPlano, usuario)
+            .orElseThrow(() -> new RuntimeException("Erro ao editar plano ou acesso negado"));
+        
+        plano.setNomePlano(planoDados.getNomePlano());
+        plano.setMetaValor(planoDados.getMetaValor());
+        plano.setAporteMensal(planoDados.getAporteMensal());
+        plano.setTaxaJurosAnual(planoDados.getTaxaJurosAnual());
+
         return repository.save(plano);
     }
 
-    public int timeCalc(PlanoFinanceiro plano) {
+    private int timeCalc(PlanoFinanceiro plano) {
         if (plano.getAporteMensal() <= 0) return 0;
 
         double taxaJurosMensal = (plano.getTaxaJurosAnual() / 100) / 12;

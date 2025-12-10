@@ -8,6 +8,7 @@ public class SimuladorFinanceiroApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SimuladorFinanceiroApiApplication.class, args);
+		
 	}
 
 }
