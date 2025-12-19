@@ -1,7 +1,6 @@
 package com.gabriel.simulador_financeiro_api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,11 +28,7 @@ public class AuthorizationService implements UserDetailsService {
         // 2. Cria um objeto "limpo" do Spring Security (Sanitização)
         // Estamos copiando apenas Email, Senha e Autorizações.
         // O resto (Planos, ID, etc) fica para trás. O Loop morre aqui.
-        return new User(
-            usuarioDoBanco.getUsername(), // Email
-            usuarioDoBanco.getPassword(), // Senha
-            usuarioDoBanco.getAuthorities() // Perfil (ROLE_USER)
-        );
+        return usuarioDoBanco;
     }
 
     @Autowired

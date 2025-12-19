@@ -1,0 +1,107 @@
+/* Reset básico para tirar margens padrão */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif; /* Fonte padrão do sistema */
+}
+
+body {
+    background-color: #f4f4f4; /* Um cinza muito clarinho para destacar o card branco */
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+    height: 100vh;           /* Altura total da tela */
+}
+
+/* O Cartão Central */
+.card {
+    background-color: #ffffff; /* Branco puro */
+    width: 400px;              /* Largura fixa */
+    padding: 40px;
+    border-radius: 8px;        /* Cantos arredondados */
+    border: 1px solid #ddd;    /* Borda cinza suave */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra leve */
+}
+
+/* Classe utilitária para esconder elementos */
+.hidden {
+    display: none;
+}
+
+/* Títulos */
+h2 {
+    text-align: center;
+    color: #333; /* Cinza escuro (quase preto) */
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #666; /* Cinza médio */
+    margin-bottom: 30px;
+    font-size: 14px;
+}
+
+/* Estilo dos Inputs (Campos) */
+.campo {
+    margin-bottom: 20px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.campo input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc; /* Borda cinza padrão */
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none; /* Tira a borda azul padrão do navegador */
+}
+
+/* Quando clica no input, ele fica azul */
+.campo input:focus {
+    border-color: #007bff;
+}
+
+/* Botão Azul */
+.btn-azul {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff; /* Azul padrão web */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-azul:hover {
+    background-color: #0056b3; /* Azul um pouco mais escuro ao passar o mouse */
+}
+
+/* Rodapé do card (Links) */
+.footer-card {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+.footer-card a {
+    color: #007bff; /* Link Azul */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-card a:hover {
+    text-decoration: underline;
+}

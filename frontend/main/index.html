@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Financeiro</title>
+    <link rel="stylesheet" href="/frontend/styles/style.css">
+
+    <script src="/frontend/utils/utils.js" defer></script>
+    <script src="app.js" defer></script>
+</head>
+<body>
+
+    <nav class="nav">
+        <button onclick="deslogarUsuario()">Sair</button>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>💰 Meus Planos Financeiros</h1>
+            <h2>Usuario logado</h2>
+            <div class="users">
+                <p id="usuarioLogado"><strong>...</strong></p>
+            </div>
+        </header>
+
+        <section class="card">
+            <h2>Novo Objetivo</h2>
+            <div class="form-group">
+                <input required type="text" id="nomePlano" placeholder="Nome do Plano (Ex: Carro Novo)" maxlength="40">
+                <input required type="number" id="metaValor" placeholder="Meta (R$)" maxlength="12">
+                <input required type="number" id="aporteMensal" placeholder="Aporte Mensal (R$)" maxlength="12">
+                <input required type="number" id="taxaJuros" placeholder="Juros Anuais (%)" maxlength="5">
+                <button onclick="salvarPlano()" class="btn-save">Salvar Plano</button>
+            </div>
+        </section>
+
+        <section class="lista-container">
+            <h2>Seus Planos Atuais</h2>
+            <div id="lista-planos" class="grid-planos">
+
+                <!-- apenas para visualizar o teste -->
+
+                <!-- <div class="card-plano">
+                    <h3 id="nomePlano">Carrao</h3>
+                    <p><strong>Meta: </strong>100.000,00</p>
+                    <p><strong>Tempo Estimado: </strong>20 anos e 10 mês</p>
+
+                    <div class="btns">
+                        <button class="btn-edit">
+                            Editar
+                        </button>
+
+                        <button class="btn-delete">
+                            Deletar
+                        </button>
+                    </div>
+                </div> -->
+
+
+                
+            </div>
+        </section>
+    </div>
+
+    
+    <div id="overlay" class="overlay"></div>
+
+    <img id="btn-user" class="user-icon" src="/frontend/imgs/user-icon.svg" alt="">
+
+    <aside id="sidebar" class="sidebar">
+        
+        <div class="sidebar-header">
+            <h3>Minha Conta</h3>
+            <img id="btn-fechar" class="btn-fechar" src="/frontend/imgs/x-icon.svg" alt="">
+        </div>
+    
+        <div class="sidebar-body">
+            <button id="btn-abrir-nome" class="btn-menu">Alterar Nome</button>
+            <button id="btn-abrir-senha" class="btn-menu">Alterar Senha</button>
+        </div>
+    
+        <div class="sidebar-footer">
+            <button id="btn-abrir-delete" class="btn-perigo">Excluir Conta</button>
+        </div>
+    </aside>
+
+    <div id="card-nome" class="card-centro hidden">
+        <div class="card-header">
+            <h3>Alterar Nome</h3>
+            <img class="btn-fechar-card" id="btn-fechar-nome" src="/frontend/imgs/x-icon.svg" alt="x icon">
+        </div>
+
+        <form id="form-nome">
+            <div class="modal-form-group">
+                <label for="novo-nome">Novo Nome:</label>
+                <input class="input-cards" type="text" id="novo-nome" required minlength="3" placeholder="Ex: Gabriel Dev">
+            </div>
+            <button type="submit" class="btn-primary">Salvar Nome</button>
+        </form>
+    </div>
+
+    <div id="card-senha" class="card-centro hidden">
+        <div class="card-header">
+            <h3>Alterar Senha</h3>
+            <img class="btn-fechar-card" id="btn-fechar-senha" src="/frontend/imgs/x-icon.svg" alt="x icon">
+        </div>
+
+        <form id="form-senha">
+            <div class="modal-form-group">
+                <label for="senha-atual">Senha Atual:</label>
+                <input class="input-cards" type="password" id="senha-atual" required>
+            </div>
+            <div class="modal-form-group">
+                <label for="nova-senha">Nova Senha:</label>
+                <input class="input-cards" type="password" id="nova-senha" required minlength="6">
+            </div>
+            <button type="submit" class="btn-primary">Atualizar Senha</button>
+        </form>
+    </div>
+
+    <div id="card-delete" class="card-centro hidden">
+        <div class="card-header">
+            <h3 style="color: #dc3545;">EXCLUIR CONTA</h3>
+            <img id="btn-fechar-delete" class="btn-fechar-card" src="/frontend/imgs/x-icon.svg" alt="x icon">
+        </div>
+
+        <form id="form-delete">
+            <p style="text-align: center; margin-bottom: 15px; color: #666;">
+                Tem certeza? Essa ação é <strong>irreversível</strong>. 
+                Digite sua senha para confirmar.
+            </p>
+
+            <div class="modal-form-group">
+                <label for="senha-delete">Sua Senha:</label>
+                <input class="input-cards" type="password" id="senha-delete" required placeholder="Confirme sua senha">
+            </div>
+
+            <button type="submit" class="btn-danger">CONFIRMAR EXCLUSÃO</button>
+        </form>
+    </div>
+
+    
+
+</body>
+</html>

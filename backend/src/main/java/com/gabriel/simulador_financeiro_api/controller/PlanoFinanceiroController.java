@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.gabriel.simulador_financeiro_api.dto.PlanoRequestDTO;
-import com.gabriel.simulador_financeiro_api.dto.PlanoResponseDTO;
-import com.gabriel.simulador_financeiro_api.dto.PlanoResponseDetailsDTO;
+import com.gabriel.simulador_financeiro_api.dto.plano.PlanoRequestDTO;
+import com.gabriel.simulador_financeiro_api.dto.plano.PlanoResponseDTO;
 import com.gabriel.simulador_financeiro_api.entity.PlanoFinanceiro;
 import com.gabriel.simulador_financeiro_api.entity.Usuario;
-import com.gabriel.simulador_financeiro_api.repository.UsuarioRepository;
 import com.gabriel.simulador_financeiro_api.service.PlanoFinanceiroService;
 
 import jakarta.validation.Valid;
@@ -32,13 +30,8 @@ public class PlanoFinanceiroController {
     @Autowired
     private PlanoFinanceiroService service;
 
-    @Autowired
-    private UsuarioRepository repository;
-
     private Usuario getUsuarioLogado() {
-        var email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        return repository.findByEmail(email);
+        return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     @GetMapping
@@ -53,11 +46,11 @@ public class PlanoFinanceiroController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlanoResponseDetailsDTO> getPlanoById(@PathVariable UUID id) {
+    public ResponseEntity<PlanoResponseDTO> getPlanoById(@PathVariable UUID id) {
         PlanoFinanceiro plano = service.searchByIdAndUsuario(id, getUsuarioLogado());
         
         if (plano != null) {
-            return ResponseEntity.ok(new PlanoResponseDetailsDTO(plano));
+            return ResponseEntity.ok(new PlanoResponseDTO(plano));
 
         } else {
             return ResponseEntity.notFound().build();
@@ -84,7 +77,7 @@ public class PlanoFinanceiroController {
         
         service.delete(id, getUsuarioLogado());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")

@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,7 +39,7 @@ public class Usuario implements UserDetails {
     @Column(nullable=false)
     private String senha;
 
-    @OneToMany(mappedBy="usuario")
+    @OneToMany(mappedBy="usuario", cascade=CascadeType.ALL, orphanRemoval=true)
     @JsonIgnore
     private List<PlanoFinanceiro> planos;
 

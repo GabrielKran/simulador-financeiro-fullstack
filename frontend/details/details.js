@@ -4,68 +4,39 @@ const id = params.get("id");
 const URL_API_PLANO = "http://localhost:8080/planos-financeiros";
 
 async function carregarPlanos(id) {
+
+
+    if (!id) {
+        alert("Nenhum plano selecionado.");
+        window.location.href = "/frontend/main/index.html";
+        return;
+    }
+
     try {
         
-        if (!id) {
-            alert("Nenhum plano selecionado.");
-            window.location.href = "index.html";
+        const resposta = await fetchAuth(`${URL_API_PLANO}/${id}`);
+        
+        if (resposta === null) {
+            alert("Acesso negado");
+            window.location.href = "/frontend/main/index.html";
             return;
         }
-            const resposta = await fetch(`${URL_API_PLANO}/${id}`);
-            
-            if (!resposta.ok) {
-                alert("Plano não encontrado no sistema.");
-                window.location.href = "index.html";
-                return;
-            }
 
-            const plano = await resposta.json();
-
-            document.getElementById("tituloPlano").innerText = plano.nomePlano;
-            document.getElementById("meta").innerText = formatarNumero(plano.metaValor);
-            document.getElementById("aporte").innerText = formatarNumero(plano.aporteMensal);
-            document.getElementById("juros").innerText = `${plano.taxaJurosAnual}%`;
-
-            const anoMes = calcTime(plano.mesesEstimados);
-            document.getElementById("tempoTexto").innerText = `${anoMes}`;
-
-            gerarGrafico(plano.taxaJurosAnual, plano.mesesEstimados, plano.aporteMensal);
+        const plano = await resposta.json();
+        document.getElementById("tituloPlano").innerText = plano.nomePlano;
+        document.getElementById("meta").innerText = formatarNumero(plano.metaValor);
+        document.getElementById("aporte").innerText = formatarNumero(plano.aporteMensal);
+        document.getElementById("juros").innerText = `${plano.taxaJurosAnual}%`;
+        const anoMes = calcTime(plano.mesesEstimados);
+        document.getElementById("tempoTexto").innerText = `${anoMes}`;
+        gerarGrafico(plano.taxaJurosAnual, plano.mesesEstimados, plano.aporteMensal);
 
         
     } catch (error) {
         console.error("Erro ao mostrar dados", error);
         alert("Erro de conexão");
-        window.location.href = "index.html";
+        window.location.href = "/frontend/main/index.html";
     }
-}
-
-function calcTime(tempoMeses) {
-    const mesesTotal = tempoMeses;
-    const anos = Math.floor(mesesTotal / 12);
-    const meses = mesesTotal % 12;
-
-    let partesTexto = [];
-
-    if (anos > 0) {
-        const anosPalavra = anos === 1 ? "ano" : "anos";
-        partesTexto.push(`${anos} ${anosPalavra}`);
-    }
-
-    if (meses > 0) {
-        const mesespalavra = meses === 1 ? "mês" : "meses";
-        partesTexto.push(`${meses} ${mesespalavra}`);
-    }
-
-    let textoFinal = partesTexto.join(" e ") || "Menos de um mês";
-
-    return textoFinal;
-}
-
-function formatarNumero(valor) {
-    return new Intl.NumberFormat("pt-BR", {
-        currency: "BRL",
-        style: "currency"
-    }).format(valor);
 }
 
 let graficoInstance = null;
@@ -86,7 +57,7 @@ function gerarGrafico(taxaJurosAnual, mesesEstimados, aporteMensal) {
         saldo = saldo + (saldo * taxaMensal);
 
         dadosDinheiro.push(saldo);
-
+    }
     // --- CONFIGURAÇÃO DO CHART.JS (COMENTADA PARA ESTUDO) ---
     
     const ctx = document.getElementById('meuGrafico').getContext('2d');
@@ -161,7 +132,7 @@ function gerarGrafico(taxaJurosAnual, mesesEstimados, aporteMensal) {
             }
         }
     });
-    }
+    
 }
 
 carregarPlanos(id);

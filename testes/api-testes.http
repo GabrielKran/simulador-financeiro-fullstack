@@ -17,7 +17,7 @@ Content-Type: application/json
 {
     "nome": "Gabriel Engenheiro",
     "email": "gabriel@dev.com",
-    "senha": "123"
+    "senha": "123456"
 }
 
 ### 1.2 Login Gabriel (Copie o token da resposta para a variável @tokenGabriel)
@@ -26,7 +26,7 @@ Content-Type: application/json
 
 {
     "email": "gabriel@dev.com",
-    "senha": "123"
+    "senha": "080707GkmAl@"
 }
 
 ### 1.3 Registrar Cleitin (Usuário comum/Intruso)
