@@ -24,7 +24,9 @@ async function fazerCadastro() {
         if (resposta.ok) {
             alert("Conta criada! Faça login.");
             alternarTelas();
-            
+        } else if (resposta.status === 409) {
+            alert("Este e-mail já está cadastrado.");
+
         } else {
             alert("Erro ao criar conta");
 

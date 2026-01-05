@@ -28,9 +28,9 @@
             <h2>Novo Objetivo</h2>
             <div class="form-group">
                 <input required type="text" id="nomePlano" placeholder="Nome do Plano (Ex: Carro Novo)" maxlength="40">
-                <input required type="number" id="metaValor" placeholder="Meta (R$)" maxlength="12">
-                <input required type="number" id="aporteMensal" placeholder="Aporte Mensal (R$)" maxlength="12">
-                <input required type="number" id="taxaJuros" placeholder="Juros Anuais (%)" maxlength="5">
+                <input required type="number" id="metaValor" placeholder="Meta (R$)" min="0" step="0.01">
+                <input required type="number" id="aporteMensal" placeholder="Aporte Mensal (R$)" min="0" step="0.01">
+                <input required type="number" id="taxaJuros" placeholder="Juros Anuais (%)" min="0" max="100" step="0.01">
                 <button onclick="salvarPlano()" class="btn-save">Salvar Plano</button>
             </div>
         </section>
@@ -39,26 +39,6 @@
             <h2>Seus Planos Atuais</h2>
             <div id="lista-planos" class="grid-planos">
 
-                <!-- apenas para visualizar o teste -->
-
-                <!-- <div class="card-plano">
-                    <h3 id="nomePlano">Carrao</h3>
-                    <p><strong>Meta: </strong>100.000,00</p>
-                    <p><strong>Tempo Estimado: </strong>20 anos e 10 mês</p>
-
-                    <div class="btns">
-                        <button class="btn-edit">
-                            Editar
-                        </button>
-
-                        <button class="btn-delete">
-                            Deletar
-                        </button>
-                    </div>
-                </div> -->
-
-
-                
             </div>
         </section>
     </div>

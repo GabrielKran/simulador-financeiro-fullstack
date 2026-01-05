@@ -20,10 +20,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "Usuario")
+
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Usuario implements UserDetails {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(columnDefinition="char(36)")
@@ -43,54 +53,10 @@ public class Usuario implements UserDetails {
     @JsonIgnore
     private List<PlanoFinanceiro> planos;
 
-    public Usuario(){
-
-    }
-
     public Usuario(String nome, String email, String senha) {
         this.nome= nome;
         this.email = email;
         this.senha = senha;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public List<PlanoFinanceiro> getPlanos() {
-        return planos;
-    }
-
-    public void setPlanos(List<PlanoFinanceiro> planos) {
-        this.planos = planos;
     }
 
     @Override
@@ -119,17 +85,4 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isEnabled() { return true; }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Usuario)) return false;
-        Usuario usuario = (Usuario) o;
-        return id != null && id.equals(usuario.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

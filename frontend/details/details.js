@@ -42,6 +42,7 @@ async function carregarPlanos(id) {
 let graficoInstance = null;
 
 function gerarGrafico(taxaJurosAnual, mesesEstimados, aporteMensal) {
+
     let saldo = 0;
     const taxaMensal = (taxaJurosAnual / 100) / 12;
     const totalMeses = mesesEstimados;
@@ -58,6 +59,7 @@ function gerarGrafico(taxaJurosAnual, mesesEstimados, aporteMensal) {
 
         dadosDinheiro.push(saldo);
     }
+    
     // --- CONFIGURAÇÃO DO CHART.JS (COMENTADA PARA ESTUDO) ---
     
     const ctx = document.getElementById('meuGrafico').getContext('2d');

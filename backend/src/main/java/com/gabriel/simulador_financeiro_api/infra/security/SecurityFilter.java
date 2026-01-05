@@ -2,7 +2,6 @@ package com.gabriel.simulador_financeiro_api.infra.security;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -15,15 +14,14 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 public class SecurityFilter extends OncePerRequestFilter {
     
-    @Autowired
-    private UsuarioRepository repository;
-
-    @Autowired
-    private TokenService tokenService;
+    private final UsuarioRepository repository;
+    private final TokenService tokenService;
 
     private String recoverToken(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
@@ -45,11 +43,13 @@ public class SecurityFilter extends OncePerRequestFilter {
             String email = tokenService.validateToken(token);
 
             if (email != null) {
-                Usuario user = repository.findByEmail(email);
+                Usuario user = repository.findByEmail(email).orElse(null);
                 
-                var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                if (user != null) {
+                    var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
         }
 

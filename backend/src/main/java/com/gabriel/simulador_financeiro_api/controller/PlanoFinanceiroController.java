@@ -3,7 +3,7 @@ package com.gabriel.simulador_financeiro_api.controller;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,13 +22,17 @@ import com.gabriel.simulador_financeiro_api.entity.Usuario;
 import com.gabriel.simulador_financeiro_api.service.PlanoFinanceiroService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/planos-financeiros")
+
+@Slf4j
+@RequiredArgsConstructor
 public class PlanoFinanceiroController {
 
-    @Autowired
-    private PlanoFinanceiroService service;
+    private final PlanoFinanceiroService service;
 
     private Usuario getUsuarioLogado() {
         return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -36,7 +40,10 @@ public class PlanoFinanceiroController {
 
     @GetMapping
     public ResponseEntity<List<PlanoResponseDTO>> getPlanoFinanceiro() {
-        List<PlanoFinanceiro> planoLista = service.searchByUsuario(getUsuarioLogado());
+        Usuario usuario = getUsuarioLogado();
+        log.info("API: Buscando todos os planos do usuario ID {}", usuario.getId());
+
+        List<PlanoFinanceiro> planoLista = service.searchByUsuario(usuario);
 
         List<PlanoResponseDTO> planoListaDTO = planoLista.stream().map(
             plano -> new PlanoResponseDTO(plano))
@@ -47,7 +54,10 @@ public class PlanoFinanceiroController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PlanoResponseDTO> getPlanoById(@PathVariable UUID id) {
-        PlanoFinanceiro plano = service.searchByIdAndUsuario(id, getUsuarioLogado());
+        Usuario usuario = getUsuarioLogado();
+        log.info("API: Buscando detalhes do plano ID {} para usuario ID {}", id, usuario.getId());
+
+        PlanoFinanceiro plano = service.searchByIdAndUsuario(id, usuario);
         
         if (plano != null) {
             return ResponseEntity.ok(new PlanoResponseDTO(plano));
@@ -60,6 +70,9 @@ public class PlanoFinanceiroController {
 
     @PostMapping
     public ResponseEntity<PlanoResponseDTO> postPlanoFinanceiro(@RequestBody @Valid PlanoRequestDTO data) {
+        Usuario usuario = getUsuarioLogado();
+        log.info("API: Recebida solicitacao de CRIACAO de plano para usuario ID {}", usuario.getId());
+        
         PlanoFinanceiro novoPlano = new PlanoFinanceiro();
 
         novoPlano.setNomePlano(data.nomePlano());
@@ -67,21 +80,26 @@ public class PlanoFinanceiroController {
         novoPlano.setAporteMensal(data.aporteMensal());
         novoPlano.setTaxaJurosAnual(data.taxaJurosAnual());
 
-        PlanoFinanceiro plano = service.save(novoPlano, getUsuarioLogado());
+        PlanoFinanceiro plano = service.save(novoPlano, usuario);
 
-        return ResponseEntity.ok(new PlanoResponseDTO(plano));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new PlanoResponseDTO(plano));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePlanoFinanceiro(@PathVariable UUID id) {
-        
-        service.delete(id, getUsuarioLogado());
+        Usuario usuario = getUsuarioLogado();
+        log.info("API: Recebida solicitacao de EXCLUSAO do plano ID {}", id);
+
+        service.delete(id, usuario);
 
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PlanoResponseDTO> putPlanoFinanceiro(@PathVariable UUID id, @RequestBody PlanoRequestDTO data) {
+    public ResponseEntity<PlanoResponseDTO> putPlanoFinanceiro(@PathVariable UUID id, @RequestBody @Valid PlanoRequestDTO data) {
+        Usuario usuario = getUsuarioLogado();
+        log.info("API: Recebida solicitacao de EDICAO do plano ID {}", id);
+        
         PlanoFinanceiro novoPlano = new PlanoFinanceiro();
 
         novoPlano.setNomePlano(data.nomePlano());
@@ -89,7 +107,7 @@ public class PlanoFinanceiroController {
         novoPlano.setAporteMensal(data.aporteMensal());
         novoPlano.setTaxaJurosAnual(data.taxaJurosAnual());
 
-        PlanoFinanceiro plano = service.edit(id, novoPlano, getUsuarioLogado());
+        PlanoFinanceiro plano = service.edit(id, novoPlano, usuario);
 
         return ResponseEntity.ok(new PlanoResponseDTO(plano));
     }

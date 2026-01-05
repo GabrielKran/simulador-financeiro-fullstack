@@ -82,10 +82,18 @@ function prepararEdicao(id) {
 async function salvarPlano() {
 
     const nome = document.getElementById("nomePlano").value;
-    const meta = document.getElementById("metaValor").value;
-    const aporte = document.getElementById("aporteMensal").value;
-    const juros = document.getElementById("taxaJuros").value;
+
+    // Converter para Float para garantir que vá como número
+    const meta = parseFloat(document.getElementById("metaValor").value);
+    const aporte = parseFloat(document.getElementById("aporteMensal").value);
+    const juros = parseFloat(document.getElementById("taxaJuros").value);
     
+    // Validação extra simples antes de enviar
+    if (isNaN(meta) || isNaN(aporte) || isNaN(juros)) {
+        alert("Por favor, preencha os valores numéricos corretamente.");
+        return;
+    }
+
     const novoPlano = {
         nomePlano: nome,
         metaValor: meta,
@@ -182,7 +190,7 @@ const btnFecharSidebar = document.getElementById("btn-fechar");
 
 const btnNome = document.getElementById("btn-abrir-nome");
 const btnSenha = document.getElementById("btn-abrir-senha");
-const btnDelete = document.getElementById("btn-abrir-delete");0
+const btnDelete = document.getElementById("btn-abrir-delete");
 
 const cardNome = document.getElementById("card-nome");
 const cardSenha = document.getElementById("card-senha");

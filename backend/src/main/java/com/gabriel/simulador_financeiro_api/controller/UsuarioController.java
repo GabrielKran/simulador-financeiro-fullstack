@@ -1,8 +1,5 @@
 package com.gabriel.simulador_financeiro_api.controller;
 
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,13 +16,17 @@ import com.gabriel.simulador_financeiro_api.entity.Usuario;
 import com.gabriel.simulador_financeiro_api.service.UsuarioService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/usuarios")
+
+@Slf4j
+@RequiredArgsConstructor
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService service;
+    private final UsuarioService service;
 
     private Usuario getUsuarioLogado() {
         return (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -33,21 +34,30 @@ public class UsuarioController {
 
     @PatchMapping("/me/nome")
     public ResponseEntity<AlterarNomeResponseDTO> patchNome(@RequestBody @Valid AlterarNomeRequestDTO data) {
-        service.editNome(data.nomeNovo(), getUsuarioLogado());
+        Usuario usuario = getUsuarioLogado();
+        log.info("API: Recebida solicitacao de troca de nome para usuario ID {}", usuario.getId());
+        
+        service.editNome(data.nomeNovo(), usuario);
 
         return ResponseEntity.ok(new AlterarNomeResponseDTO(data.nomeNovo()));
     }
 
     @PatchMapping("/me/senha")
     public ResponseEntity<Void> patchSenha(@RequestBody @Valid AlterarSenhaRequestDTO data) {
-        service.editSenha(data.senhaAtual(), data.senhaNova(), getUsuarioLogado());
+        Usuario usuario = getUsuarioLogado();
+        log.info("API: Recebida solicitacao de troca de senha para usuario ID {}", usuario.getId());
+
+        service.editSenha(data.senhaAtual(), data.senhaNova(), usuario);
 
         return ResponseEntity.noContent().build();
     }
     
     @DeleteMapping("/me")
     public ResponseEntity<Void> deleteUsuario(@RequestBody @Valid DeletarUsuarioRequestDTO data) {
-        service.deleteUsuario(getUsuarioLogado(), data.senha());
+        Usuario usuario = getUsuarioLogado();
+        log.info("API: Recebida solicitacao de EXCLUSAO DE CONTA para usuario ID {}", usuario.getId());
+
+        service.deleteUsuario(usuario, data.senha());
 
         return ResponseEntity.noContent().build();
     }

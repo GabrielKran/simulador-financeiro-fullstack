@@ -23,7 +23,7 @@
                 </div>
                 <div class="campo">
                     <label>Senha</label>
-                    <input type="password" id="senha-login" placeholder="Sua senha" required>
+                    <input type="password" id="senha-login" placeholder="Sua senha" required required minlength="6">
                 </div>
                 <button type="submit" class="btn-azul">ENTRAR</button>
             </form>
@@ -40,7 +40,7 @@
             <form id="form-register" onsubmit="event.preventDefault(); fazerCadastro()">
                 <div class="campo">
                     <label>Nome Completo</label>
-                    <input type="text" id="nome-register" placeholder="Seu nome" required>
+                    <input type="text" id="nome-register" placeholder="Seu nome" required minlength="3">
                 </div>
                 <div class="campo">
                     <label>E-mail</label>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="campo">
                     <label>Senha</label>
-                    <input type="password" id="senha-register" placeholder="Crie uma senha" required>
+                    <input type="password" id="senha-register" placeholder="Crie uma senha" required required minlength="6">
                 </div>
                 <button type="submit" class="btn-azul">CADASTRAR</button>
             </form>

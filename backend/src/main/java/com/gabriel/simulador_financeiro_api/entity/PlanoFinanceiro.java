@@ -14,8 +14,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 @Entity
 @Table(name = "Plano_financeiro")
+
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class PlanoFinanceiro {
     
     @Id
@@ -49,65 +58,5 @@ public class PlanoFinanceiro {
         this.metaValor = metaValor;
         this.aporteMensal = aporteMensal;
         this.taxaJurosAnual = taxaJurosAnual;
-    }
-
-    public PlanoFinanceiro() {
-
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public String getNomePlano() {
-        return nomePlano;
-    }
-
-    public double getMetaValor() {
-        return metaValor;
-    }
-
-    public double getAporteMensal() {
-        return aporteMensal;
-    }
-
-    public double getTaxaJurosAnual() {
-        return taxaJurosAnual;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public void setNomePlano(String nomePlano) {
-        this.nomePlano = nomePlano;
-    }
-
-    public void setMetaValor(double metaValor) {
-        this.metaValor = metaValor;
-    }
-
-    public void setAporteMensal(double aporteMensal) {
-        this.aporteMensal = aporteMensal;
-    }
-
-    public void setTaxaJurosAnual(double taxaJurosAnual) {
-        this.taxaJurosAnual = taxaJurosAnual;
-    }
-
-    public Integer getMesesEstimados() {
-        return mesesEstimados;
-    }
-
-    public void setMesesEstimados(Integer mesesEstimados) {
-        this.mesesEstimados = mesesEstimados;
     }
 }

@@ -1,50 +1,55 @@
 package com.gabriel.simulador_financeiro_api.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.gabriel.simulador_financeiro_api.entity.Usuario;
 import com.gabriel.simulador_financeiro_api.repository.UsuarioRepository;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j // Habilita os logs
+@RequiredArgsConstructor // Injeção de dependência segura (substitui Autowired)
 public class AuthorizationService implements UserDetailsService {
 
-    @Autowired
-    private UsuarioRepository repository;
+    // 'final' garante que nunca serão nulos e não podem ser trocados
+    private final UsuarioRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // 1. Busca o usuário no banco (Objeto "sujo" com conexões JPA)
-        var usuarioDoBanco = repository.findByEmail(username);
+        log.info("Tentativa de login para o usuario: {}", username);
         
-        if (usuarioDoBanco == null) {
-            throw new UsernameNotFoundException("Usuário não encontrado");
-        }
+        Usuario usuarioDoBanco = repository.findByEmail(username).orElseThrow(() -> {
+            log.warn("Falha no login: Usuario '{}' nao encontrado no banco", username);
+            return new UsernameNotFoundException("Usuário não encontrado");
+        });
 
-        // 2. Cria um objeto "limpo" do Spring Security (Sanitização)
-        // Estamos copiando apenas Email, Senha e Autorizações.
-        // O resto (Planos, ID, etc) fica para trás. O Loop morre aqui.
         return usuarioDoBanco;
     }
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     public void register(String nome, String email, String senha) {
+        log.info("Tentativa de registro de novo usuario: {}", email);
+
         if (repository.existsByEmail(email)) {
+            log.warn("Falha no registro: Email '{}' ja cadastrado no sistema", email);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email ja existe");
 
-            throw new RuntimeException("Email já existe");
-
-        } else {
+        }
             String senhaBCrypt = passwordEncoder.encode(senha);
 
             Usuario usuario = new Usuario(nome, email, senhaBCrypt);
             
-            repository.save(usuario);
-        }
+            Usuario salvo = repository.save(usuario);
+            log.info("Usuario registrado com sucesso! ID: {}", salvo.getId());
     }
 }
