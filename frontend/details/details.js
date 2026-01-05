@@ -13,7 +13,6 @@ async function carregarPlanos(id) {
     }
 
     try {
-        
         const resposta = await fetchAuth(`${URL_API_PLANO}/${id}`);
         
         if (resposta === null) {
