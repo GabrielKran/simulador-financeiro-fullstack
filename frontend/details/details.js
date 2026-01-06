@@ -8,7 +8,7 @@ async function carregarPlanos(id) {
 
     if (!id) {
         alert("Nenhum plano selecionado.");
-        window.location.href = "/frontend/index.html";
+        window.location.href = "index.html";
         return;
     }
 
@@ -17,7 +17,7 @@ async function carregarPlanos(id) {
         
         if (resposta === null) {
             alert("Acesso negado");
-            window.location.href = "/frontend/index.html";
+            window.location.href = "index.html";
             return;
         }
 
@@ -34,7 +34,7 @@ async function carregarPlanos(id) {
     } catch (error) {
         console.error("Erro ao mostrar dados", error);
         alert("Erro de conexão");
-        window.location.href = "/frontend/index.html";
+        window.location.href = "index.html";
     }
 }
 

@@ -4,7 +4,7 @@ carregarApp();
 function carregarApp() {
     const token = localStorage.getItem("token");
     if (!token) {
-        window.location.href = "/frontend/login/login.html";
+        window.location.href = "login/login.html";
         return;
     }
     carregarPlanos();
@@ -174,11 +174,11 @@ async function deletePlano(id) {
 function deslogarUsuario() {
     localStorage.removeItem("token");
     localStorage.removeItem("usuario");
-    window.location.href = "/frontend/login/login.html";
+    window.location.href = "login/login.html";
 }
 
 function setUrlId(id) {
-    window.location.href = `/frontend/details/details.html?id=${id}`;
+    window.location.href = `details/details.html?id=${id}`;
 }
 
 // CONFIGURAÇÂO DA INTERFACE DE ASIDE E CARDS
@@ -348,7 +348,7 @@ async function deletarUsuario(event) {
             localStorage.removeItem("token");
             localStorage.removeItem("usuario");
             
-            window.location.href = "/frontend/login/login.html";
+            window.location.href = "login/login.html";
             
         } else if (resposta.status === 401 || resposta.status === 403) {
             alert("Senha incorreta");

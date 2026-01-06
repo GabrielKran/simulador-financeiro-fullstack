@@ -65,7 +65,7 @@ async function fazerLogin() {
             localStorage.setItem("token", token);
             localStorage.setItem("usuario", usuario);
 
-            window.location.href = "/frontend/index.html";
+            window.location.href = "index.html";
             
         } else {
             alert("Email ou senha inválidos");
