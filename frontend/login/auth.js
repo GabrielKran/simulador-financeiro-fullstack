@@ -1,6 +1,6 @@
-const URL_API_REGISTER = "http://localhost:8080/auth/register";
+const URL_API_REGISTER = "https://simulador-financeiro-fullstack.onrender.com/auth/register";
 
-const URL_API_LOGIN = "http://localhost:8080/auth/login";
+const URL_API_LOGIN = "https://simulador-financeiro-fullstack.onrender.com/auth/login";
 
 async function fazerCadastro() {
     const nomeRegister = document.getElementById("nome-register").value;

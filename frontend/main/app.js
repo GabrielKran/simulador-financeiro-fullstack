@@ -1,4 +1,4 @@
-const URL_API_PLANO = "http://localhost:8080/planos-financeiros";
+const URL_API_PLANO = "https://simulador-financeiro-fullstack.onrender.com";
 
 carregarApp();
 function carregarApp() {
@@ -248,7 +248,7 @@ btnFecharSidebar.addEventListener("click", fecharTudo);
 
 async function editarNomeUsuario(event) {
     event.preventDefault();
-    const url = "http://localhost:8080/usuarios/me/nome";
+    const url = "https://simulador-financeiro-fullstack.onrender.com/usuarios/me/nome";
 
     const nomeEdicao = {
         nomeNovo: `${nomeNovo.value}`
@@ -281,7 +281,7 @@ async function editarNomeUsuario(event) {
 
 async function editarSenhaUsuario(event) {
     event.preventDefault();
-    const url = "http://localhost:8080/usuarios/me/senha";
+    const url = "https://simulador-financeiro-fullstack.onrender.com/usuarios/me/senha";
 
     if (senhaAtual.value === senhaNova.value) {
         alert("As senhas devem ser diferentes!");
@@ -327,7 +327,7 @@ async function editarSenhaUsuario(event) {
 
 async function deletarUsuario(event) {
     event.preventDefault();
-    const url = "http://localhost:8080/usuarios/me";
+    const url = "https://simulador-financeiro-fullstack.onrender.com/usuarios/me";
 
     const senhaForDelete = {
         senha: senhaDelete.value

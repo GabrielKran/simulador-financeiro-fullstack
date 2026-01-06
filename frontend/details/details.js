@@ -1,7 +1,7 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-const URL_API_PLANO = "http://localhost:8080/planos-financeiros";
+const URL_API_PLANO = "https://simulador-financeiro-fullstack.onrender.com/planos-financeiros";
 
 async function carregarPlanos(id) {
 
