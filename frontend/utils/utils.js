@@ -15,7 +15,7 @@ async function fetchAuth(url, options = {}) {
         localStorage.removeItem("token");
         localStorage.removeItem("usuario");
 
-        window.location.href = "login/login.html";
+        window.location.href = "/login/login.html";
 
         return null;
     }
