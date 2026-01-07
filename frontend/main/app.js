@@ -1,4 +1,4 @@
-const URL_API_PLANO = "https://simulador-financeiro-fullstack.onrender.com";
+const URL_API_PLANO = "https://simulador-financeiro-fullstack.onrender.com/planos-financeiros";
 
 carregarApp();
 function carregarApp() {
