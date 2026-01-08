@@ -73,9 +73,7 @@ async function fetchAuth(url, options = {}) {
     }
     
     try {
-        console.log("Simulando lentidão...");
-        await new Promise(resolve => setTimeout(resolve, 6000));
-        
+
         const resposta = await fetch(url, options);
 
         if ((resposta.status === 401 || resposta.status === 403) && !options.manualErrorHandling){
