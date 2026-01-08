@@ -30,14 +30,27 @@ const LoadingSystem = {
     start() {
         this.activeRequests++;
 
-        if (this.activeRequests === 1) {
+        // BLINDAGEM: Se por acaso o init falhou ou não rodou, roda agora.
+        if (!this.overlayEl) {
+            console.warn("LoadingSystem: Init forçado pelo start (Recuperação de Erro)");
+            this.init();
+        }
 
+        if (this.activeRequests === 1) {
+            
             this.timerSpinner = setTimeout(() => {
-                this.overlayEl.classList.add('visible');
+                // Verificação dupla de segurança
+                if (this.overlayEl) {
+                    this.overlayEl.classList.add('visible');
+                } else {
+                    console.error("LoadingSystem: Erro crítico - Overlay não encontrado mesmo após init.");
+                }
             }, 300);
 
             this.timerMessage = setTimeout(() => {
-                this.textEl.classList.add('visible');
+                if (this.textEl) {
+                    this.textEl.classList.add('visible');
+                }
             }, 5000);
         }
     },
@@ -73,6 +86,8 @@ async function fetchAuth(url, options = {}) {
     }
     
     try {
+
+        await new Promise(resolve => setTimeout(resolve, 6000));
 
         const resposta = await fetch(url, options);
 
