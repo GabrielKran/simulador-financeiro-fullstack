@@ -30,9 +30,7 @@ const LoadingSystem = {
     start() {
         this.activeRequests++;
 
-        // BLINDAGEM: Se por acaso o init falhou ou não rodou, roda agora.
         if (!this.overlayEl) {
-            console.warn("LoadingSystem: Init forçado pelo start (Recuperação de Erro)");
             this.init();
         }
 
@@ -87,8 +85,6 @@ async function fetchAuth(url, options = {}) {
     
     try {
 
-        await new Promise(resolve => setTimeout(resolve, 6000));
-
         const resposta = await fetch(url, options);
 
         if ((resposta.status === 401 || resposta.status === 403) && !options.manualErrorHandling){
@@ -101,6 +97,7 @@ async function fetchAuth(url, options = {}) {
         }
 
         return resposta;
+
     } finally {
         LoadingSystem.stop();
     }
