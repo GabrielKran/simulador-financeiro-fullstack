@@ -5,19 +5,6 @@ const URL_API_PLANO = "https://simulador-financeiro-fullstack.onrender.com/plano
 
 async function carregarPlanos(id) {
 
-    
-    const urlCompleta = `${URL_API_PLANO}/${id}`;
-    
-    // --- O DETETIVE ---
-    console.log("--- DEBUG URL ---");
-    console.log("ID Recebido:", id);
-    console.log("Tipo do ID:", typeof id);
-    console.log("URL que vou chamar:", urlCompleta);
-    console.log("Tamanho da URL:", urlCompleta.length);
-    console.log("-----------------");
-
-
-
     if (!id) {
         alert("Nenhum plano selecionado.");
         window.location.href = "../index.html";
@@ -25,7 +12,7 @@ async function carregarPlanos(id) {
     }
 
     try {
-        const resposta = await fetchAuth(urlCompleta);
+        const resposta = await fetchAuth(`${URL_API_PLANO}/${id}`);
         
         console.log("Status da Resposta:", resposta.status); // <--- Quero ver isso
         

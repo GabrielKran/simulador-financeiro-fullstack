@@ -1,4 +1,67 @@
+const LoadingSystem = {
+    activeRequests: 0,
+    timerSpinner: null,
+    timerMessage: null,
+    
+    // Elementos do DOM (serão preenchidos no init)
+    overlayEl: null,
+    textEl: null,
+
+    init() {
+        // 1. Verifica se já não existe para não duplicar
+        if (document.getElementById('global-loader')) return;
+
+        // 2. Cria o HTML na memória
+        const loaderDiv = document.createElement('div');
+        loaderDiv.id = 'global-loader';
+        loaderDiv.innerHTML = `
+            <div class="loader-spinner"></div>
+            <p class="loader-text">O servidor está demorando um pouco...</p>
+        `;
+
+        // 3. Injeta no corpo da página
+        document.body.appendChild(loaderDiv);
+
+        // 4. Salva as referências para usar no start/stop
+        this.overlayEl = document.getElementById('global-loader');
+        this.textEl = loaderDiv.querySelector('.loader-text');
+    },
+
+    start() {
+        this.activeRequests++;
+
+        if (this.activeRequests === 1) {
+
+            this.timerSpinner = setTimeout(() => {
+                this.overlayEl.classList.add('visible');
+            }, 300);
+
+            this.timerMessage = setTimeout(() => {
+                this.textEl.classList.add('visible');
+            }, 5000);
+        }
+    },
+
+    stop() {
+        this.activeRequests--;
+        if (this.activeRequests < 0) this.activeRequests = 0;
+
+        if (this.activeRequests === 0) {
+
+            clearTimeout(this.timerSpinner);
+            clearTimeout(this.timerMessage);
+
+            this.overlayEl.classList.remove('visible');
+            this.textEl.classList.remove('visible');
+        }
+    }
+};
+
+// Inicializa assim que o JS carregar
+document.addEventListener("DOMContentLoaded", () => LoadingSystem.init());
+
 async function fetchAuth(url, options = {}) {
+    LoadingSystem.start();
     const token = localStorage.getItem("token");
 
     if (!options.headers) {
@@ -8,19 +71,26 @@ async function fetchAuth(url, options = {}) {
     if (token) {
         options.headers["Authorization"] = `Bearer ${token}`;
     }
-        
-    const resposta = await fetch(url, options);
+    
+    try {
 
-    if ((resposta.status === 401 || resposta.status === 403) && !options.manualErrorHandling){
-        localStorage.removeItem("token");
-        localStorage.removeItem("usuario");
+    
+        const resposta = await fetch(url, options);
 
-        window.location.href = "/login/login.html";
+        if ((resposta.status === 401 || resposta.status === 403) && !options.manualErrorHandling){
+            localStorage.removeItem("token");
+            localStorage.removeItem("usuario");
 
-        return null;
+            window.location.href = "/login/login.html";
+
+            return null;
+        }
+
+        return resposta;
+    } finally {
+        LoadingSystem.stop();
     }
-
-    return resposta;
+    
 }
 
 function nomeUsuario() {
