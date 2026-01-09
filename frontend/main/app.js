@@ -84,8 +84,12 @@ async function salvarPlano() {
     const nome = document.getElementById("nomePlano").value;
 
     // Converter para Float para garantir que vá como número
-    const meta = parseFloat(document.getElementById("metaValor").value);
-    const aporte = parseFloat(document.getElementById("aporteMensal").value);
+    const metaRS = document.getElementById("metaValor").value;
+    const aporteRS = document.getElementById("aporteMensal").value;
+
+    const meta = limparValorMoeda(metaRS);
+    const aporte = limparValorMoeda(aporteRS);
+
     const juros = parseFloat(document.getElementById("taxaJuros").value);
     
     // Validação extra simples antes de enviar
