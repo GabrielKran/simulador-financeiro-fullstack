@@ -151,9 +151,42 @@ function calcTime(tempoMeses) {
     return textoFinal;
 }
 
+// ==========================================
+// MÁSCARAS E FORMATAÇÃO
+// ==========================================
+
 function formatarNumero(valor) {
     return new Intl.NumberFormat("pt-BR", {
         currency: "BRL",
         style: "currency"
     }).format(valor);
+}
+
+// 1. Aplica a máscara visual (R$) ENQUANTO o usuário digita
+function mascaraMoeda(event) {
+    const input = event.target;
+    
+    // Remove tudo que não for dígito (0-9)
+    let valor = input.value.replace(/\D/g, ""); 
+    
+    if (valor === "") {
+        input.value = "";
+        return;
+    }
+
+    // Divide por 100 para considerar os centavos (Ex: 1500 vira 15.00)
+    const numero = parseFloat(valor) / 100;
+
+    input.value = formatarNumero(numero);
+}
+
+// 2. Limpa a formatação (tira o R$) para enviar ao Backend
+function limparValorMoeda(valorFormatado) {
+    if (!valorFormatado) return 0;
+    
+    // Remove tudo que não é dígito
+    const apenasNumeros = valorFormatado.replace(/\D/g, "");
+    
+    // Divide por 100 para voltar a ser um número decimal puro
+    return parseFloat(apenasNumeros) / 100;
 }

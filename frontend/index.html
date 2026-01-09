@@ -29,9 +29,17 @@
             <h2>Novo Objetivo</h2>
             <div class="form-group">
                 <input required type="text" id="nomePlano" placeholder="Nome do Plano (Ex: Carro Novo)" maxlength="40">
-                <input required type="number" id="metaValor" placeholder="Meta (R$)" min="0" step="0.01">
-                <input required type="number" id="aporteMensal" placeholder="Aporte Mensal (R$)" min="0" step="0.01">
+
+                <input
+                required type="text" id="metaValor" placeholder="Meta (R$)"
+                oninput="mascaraMoeda(event)" maxlength="18">
+
+                <input
+                required type="text" id="aporteMensal" placeholder="Aporte Mensal (R$)"
+                oninput="mascaraMoeda(event)" maxlength="18">
+
                 <input required type="number" id="taxaJuros" placeholder="Juros Anuais (%)" min="0" max="100" step="0.01">
+
                 <button onclick="salvarPlano()" class="btn-save">Salvar Plano</button>
             </div>
         </section>
