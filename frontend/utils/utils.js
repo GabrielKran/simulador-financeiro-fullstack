@@ -177,7 +177,7 @@ function mascaraMoeda(event) {
     // Divide por 100 para considerar os centavos (Ex: 1500 vira 15.00)
     const numero = parseFloat(valor) / 100;
 
-    formatarNumero(input.value);
+    input.value = formatarNumero(numero);
 }
 
 // 2. Limpa a formatação (tira o R$) para enviar ao Backend
