@@ -1,7 +1,8 @@
 const LoadingSystem = {
     activeRequests: 0,
     timerSpinner: null,
-    timerMessage: null,
+    timerMessage1: null,
+    timerMessage2: null,
     
     // Elementos do DOM (serão preenchidos no init)
     overlayEl: null,
@@ -43,13 +44,21 @@ const LoadingSystem = {
                 } else {
                     console.error("LoadingSystem: Erro crítico - Overlay não encontrado mesmo após init.");
                 }
-            }, 300);
+            }, 500);
 
-            this.timerMessage = setTimeout(() => {
+            this.timerMessage1 = setTimeout(() => {
                 if (this.textEl) {
+                    this.textEl.innerHTML = "O servidor está demorando um pouco...";
                     this.textEl.classList.add('visible');
                 }
             }, 5000);
+
+            this.timerMessage2 = setTimeout(() => {
+                if (this.textEl) {
+                    this.textEl.innerHTML = "O servidor estava hibernando (Cold Start). Estamos ligando ele, isso pode levar até 1 minuto. Aguarde...";
+                    this.textEl.classList.add('visible');
+                }
+            }, 15000);
         }
     },
 
@@ -60,10 +69,20 @@ const LoadingSystem = {
         if (this.activeRequests === 0) {
 
             clearTimeout(this.timerSpinner);
-            clearTimeout(this.timerMessage);
+            clearTimeout(this.timerMessage1);
+            clearTimeout(this.timerMessage2);
 
-            this.overlayEl.classList.remove('visible');
-            this.textEl.classList.remove('visible');
+            if (this.overlayEl) this.overlayEl.classList.remove('visible');
+            
+            if (this.textEl) {
+                this.textEl.classList.remove('visible');
+                
+                // Reseta o texto para o padrão (para a próxima vez que usar)
+                // Espera 300ms (tempo da transição CSS) para trocar o texto invisível
+                setTimeout(() => {
+                    this.textEl.innerText = "O servidor está demorando um pouco...";
+                }, 300);
+            }
         }
     }
 };
