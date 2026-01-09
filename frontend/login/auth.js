@@ -3,6 +3,8 @@ const URL_API_REGISTER = "https://simulador-financeiro-fullstack.onrender.com/au
 const URL_API_LOGIN = "https://simulador-financeiro-fullstack.onrender.com/auth/login";
 
 async function fazerCadastro() {
+    LoadingSystem.start();
+
     const nomeRegister = document.getElementById("nome-register").value;
     const emailRegister = document.getElementById("email-register").value;
     const senhaRegister = document.getElementById("senha-register").value;
@@ -37,10 +39,15 @@ async function fazerCadastro() {
 
     } catch (error) {
         console.error("Erro ao fazer cadastro", error);
+
+    } finally {
+        LoadingSystem.stop();
     }
 }
 
 async function fazerLogin() {
+    LoadingSystem.start();
+
     const emailLogin = document.getElementById("email-login").value;
     const senhaLogin = document.getElementById("senha-login").value;
 
@@ -76,6 +83,9 @@ async function fazerLogin() {
 
     } catch (error) {
         console.error("Erro ao fazer login", error);
+
+    } finally {
+        LoadingSystem.stop();
     }
 }
 
