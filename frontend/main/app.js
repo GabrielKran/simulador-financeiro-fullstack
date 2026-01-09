@@ -242,9 +242,9 @@ function abrirCard(cardParaAbrir) {
 btnUser.addEventListener("click", toggleSidebar);
 
 overlay.addEventListener("click", fecharTudo);
-btnNome.addEventListener("click", () => {abrirCard(cardNome)});
-btnSenha.addEventListener("click", () => {abrirCard(cardSenha)});
-btnDelete.addEventListener("click", () => {abrirCard(cardDelete)});
+btnNome.addEventListener("click", () => abrirCard(cardNome));
+btnSenha.addEventListener("click", () => abrirCard(cardSenha));
+btnDelete.addEventListener("click", () => abrirCard(cardDelete));
 btnFecharCardNome.addEventListener("click", fecharTudo);
 btnFecharCardSenha.addEventListener("click", fecharTudo);
 btnFecharCardDelete.addEventListener("click", fecharTudo);

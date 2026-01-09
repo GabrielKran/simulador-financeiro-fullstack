@@ -87,9 +87,6 @@ const LoadingSystem = {
     }
 };
 
-// Inicializa assim que o JS carregar
-document.addEventListener("DOMContentLoaded", () => LoadingSystem.init());
-
 async function fetchAuth(url, options = {}) {
     LoadingSystem.start();
     const token = localStorage.getItem("token");
@@ -190,3 +187,110 @@ function limparValorMoeda(valorFormatado) {
     // Divide por 100 para voltar a ser um número decimal puro
     return parseFloat(apenasNumeros) / 100;
 }
+
+// ==========================================
+// SISTEMA DE NOTIFICAÇÕES (TOASTS)
+// ==========================================
+const Toast = {
+    container: null,
+
+    init() {
+        if (!document.getElementById('toast-container')) {
+            this.container = document.createElement('div');
+            this.container.id = 'toast-container';
+            document.body.appendChild(this.container);
+        } else {
+            this.container = document.getElementById('toast-container');
+        }
+    },
+
+    // Chama assim: Toast.show("Salvo com sucesso!", "success")
+    show(message, type = 'info') {
+        this.init();
+
+        const toast = document.createElement('div');
+        toast.classList.add('toast', type);
+        toast.innerText = message;
+
+        // Adiciona ao container
+        this.container.appendChild(toast);
+
+        // Remove automaticamente após 4 segundos
+        setTimeout(() => {
+            toast.classList.add('hiding'); // Começa animação de saída
+            toast.addEventListener('animationend', () => {
+                toast.remove(); // Remove do HTML quando animação acabar
+            });
+        }, 4000);
+    }
+};
+
+// ==========================================
+// SISTEMA DE MODAL (CONFIRM & ALERT)
+// ==========================================
+const Modal = {
+    // Para confirmar ações (Sim/Não)
+    // Uso: if (await Modal.confirm("Tem certeza?", "Isso apaga tudo!")) { ... }
+    confirm(titulo, mensagem) {
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            
+            overlay.innerHTML = `
+                <div class="modal-box">
+                    <h3 class="modal-title">${titulo}</h3>
+                    <p class="modal-text">${mensagem}</p>
+                    <div class="modal-actions">
+                        <button class="btn-modal btn-cancel" id="modal-cancel">Cancelar</button>
+                        <button class="btn-modal btn-confirm" id="modal-yes">Confirmar</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+
+            // Eventos dos botões
+            document.getElementById('modal-yes').onclick = () => {
+                overlay.remove();
+                resolve(true); // Retorna VERDADEIRO
+            };
+
+            document.getElementById('modal-cancel').onclick = () => {
+                overlay.remove();
+                resolve(false); // Retorna FALSO
+            };
+        });
+    },
+
+    // Para avisos bloqueantes (Sessão Expirada)
+    // Uso: await Modal.alert("Sessão Expirada", "Faça login novamente.")
+    alert(titulo, mensagem) {
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+            
+            overlay.innerHTML = `
+                <div class="modal-box">
+                    <h3 class="modal-title">${titulo}</h3>
+                    <p class="modal-text">${mensagem}</p>
+                    <div class="modal-actions">
+                        <button class="btn-modal btn-ok" id="modal-ok">Entendi</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+
+            document.getElementById('modal-ok').onclick = () => {
+                overlay.remove();
+                resolve(true);
+            };
+        });
+    }
+};
+
+// Inicializa assim que o JS carregar
+document.addEventListener("DOMContentLoaded", () => {
+    LoadingSystem.init();
+    Toast.init();
+});
