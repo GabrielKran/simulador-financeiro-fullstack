@@ -56,7 +56,7 @@ async function carregarPlanos() {
             });
 
         } else {
-            alert("Erro ao carregar planos");
+            Toast.show("Erro desconhecido ao carregar planos", "error")
         }
 
     } catch(error) {
@@ -94,7 +94,7 @@ async function salvarPlano() {
     
     // Validação extra simples antes de enviar
     if (isNaN(meta) || isNaN(aporte) || isNaN(juros)) {
-        alert("Por favor, preencha os valores numéricos corretamente.");
+        Toast.show("Preencha os valores corretamente.", "warning");
         return;
     }
 
@@ -124,7 +124,7 @@ async function salvarPlano() {
         if (resposta === null) return;
 
         if (resposta.ok) {
-            alert("Plano salvo com sucesso");
+            Toast.show("Plano salvo com sucesso!", "success");
             
             limparInput();
             const planoResposta = await resposta.json();
@@ -132,7 +132,7 @@ async function salvarPlano() {
             carregarPlanos();
 
         } else {
-            alert("Erro ao salvar Plano");
+            Toast.show("Não foi possível salvar o plano.", "error");
 
         }
         
@@ -152,7 +152,10 @@ function limparInput() {
 }
 
 async function deletePlano(id) {
-    if (confirm("Tem certeza que deseja apagar este Plano?")) {
+
+    const confirmou = await Modal.confirm("Excluir Plano", "Tem certeza? Essa ação não pode ser desfeita.");
+    if (confirmou) {
+        
         try {
             
             const resposta = await fetchAuth(`${URL_API_PLANO}/${id}`, {
@@ -162,11 +165,11 @@ async function deletePlano(id) {
             if (resposta === null) return;
 
             if (resposta.ok) {
-                alert("Plano removido com sucesso");
+                Toast.show("Plano removido com sucesso!", "success");
                 carregarPlanos();
 
             } else {
-                alert("Erro ao remover Plano");
+                Toast.show("Erro ao remover o plano.", "error");
             }
 
         } catch (error) {
@@ -242,9 +245,9 @@ function abrirCard(cardParaAbrir) {
 btnUser.addEventListener("click", toggleSidebar);
 
 overlay.addEventListener("click", fecharTudo);
-btnNome.addEventListener("click", () => {abrirCard(cardNome)});
-btnSenha.addEventListener("click", () => {abrirCard(cardSenha)});
-btnDelete.addEventListener("click", () => {abrirCard(cardDelete)});
+btnNome.addEventListener("click", () => abrirCard(cardNome));
+btnSenha.addEventListener("click", () => abrirCard(cardSenha));
+btnDelete.addEventListener("click", () => abrirCard(cardDelete));
 btnFecharCardNome.addEventListener("click", fecharTudo);
 btnFecharCardSenha.addEventListener("click", fecharTudo);
 btnFecharCardDelete.addEventListener("click", fecharTudo);
@@ -268,13 +271,13 @@ async function editarNomeUsuario(event) {
         if (resposta === null) return;
 
         if (resposta.ok) {
-            alert("Nome atualizado!");
+            Toast.show("Nome atualizado!", "success");
             localStorage.setItem("usuario", nomeEdicao.nomeNovo);
             nomeUsuario();
             fecharTudo();
 
         } else {
-            alert("Erro ao editar nome");
+            Toast.show("Erro ao editar nome", "error");
         }
 
     } catch (error) {
@@ -288,7 +291,7 @@ async function editarSenhaUsuario(event) {
     const url = "https://simulador-financeiro-fullstack.onrender.com/usuarios/me/senha";
 
     if (senhaAtual.value === senhaNova.value) {
-        alert("As senhas devem ser diferentes!");
+        Toast.show("As senhas devem ser diferentes.", "warning");
         senhaAtual.value = "";
         senhaNova.value = "";
         return;
@@ -310,18 +313,18 @@ async function editarSenhaUsuario(event) {
 
 
         if (resposta.ok) {
-            alert("Senha atualizada!");
+            Toast.show("Senha atualizada!", "success");
             fecharTudo();
 
         } else if (resposta.status === 401 || resposta.status === 403) {
-            alert("Senha incorreta");
+            Toast.show("A senha atual está incorreta.", "error");
             senhaAtual.value = "";
             senhaNova.value = "";
 
             senhaAtual.focus();
 
         } else {
-            alert("Erro desconhecido ao editar senha");
+            Toast.show("Erro desconhecido ao editar senha", "error")
         }
 
     } catch (error) {
@@ -346,22 +349,21 @@ async function deletarUsuario(event) {
             manualErrorHandling: true
         })
 
-
         if (resposta.ok) {
-            alert("Usuário apagado com sucesso");
+            Toast.show("Usuário apagado com sucesso!", "success")
             localStorage.removeItem("token");
             localStorage.removeItem("usuario");
             
             window.location.href = "login/login.html";
             
         } else if (resposta.status === 401 || resposta.status === 403) {
-            alert("Senha incorreta");
+            Toast.show("A senha atual está incorreta.", "error")
             senhaDelete.value = "";
 
             senhaDelete.focus();
 
         } else {
-            alert("Erro desconhecido ao deletar usuário");
+           Toast.show("Erro desconhecido ao deletar usuário.", "error")
         }
 
     } catch (error) {

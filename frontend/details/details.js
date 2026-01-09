@@ -6,7 +6,7 @@ const URL_API_PLANO = "https://simulador-financeiro-fullstack.onrender.com/plano
 async function carregarPlanos(id) {
 
     if (!id) {
-        alert("Nenhum plano selecionado.");
+        await Modal.alert("Erro de Navegação", "Nenhum plano foi selecionado.");
         window.location.href = "../index.html";
         return;
     }
@@ -17,14 +17,12 @@ async function carregarPlanos(id) {
         console.log("Status da Resposta:", resposta.status); // <--- Quero ver isso
         
         if (!resposta.ok) {
-            // Vamos ler o erro que o servidor devolveu (se devolveu algo)
-            const textoErro = await resposta.text();
-            console.error("Erro do Servidor:", textoErro);
-            throw new Error(`Erro HTTP: ${resposta.status}`);
+            await Modal.alert("Plano não encontrado", "Este plano não existe ou você não tem permissão.");
+            window.location.href = "../index.html";
+            return;
         }
 
         if (resposta === null) {
-            alert("Acesso negado");
             window.location.href = "../index.html";
             return;
         }
@@ -40,8 +38,7 @@ async function carregarPlanos(id) {
 
         
     } catch (error) {
-        console.error("Erro ao mostrar dados", error);
-        alert("Erro de conexão");
+        await Modal.alert("Erro de Conexão", "Não foi possível carregar os dados. Verifique sua internet.");
         window.location.href = "../index.html";
     }
 }

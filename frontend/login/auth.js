@@ -24,13 +24,13 @@ async function fazerCadastro() {
         })
 
         if (resposta.ok) {
-            alert("Conta criada! Faça login.");
+            Toast.show("Conta criada! Faça login para continuar.", "success");
             alternarTelas();
         } else if (resposta.status === 409) {
-            alert("Este e-mail já está cadastrado.");
+            Toast.show("Este e-mail já está em uso.", "error");
 
         } else {
-            alert("Erro ao criar conta");
+            Toast.show("Erro ao criar conta. Tente novamente.", "error");
 
             document.getElementById("nome-register").value = "";
             document.getElementById("email-register").value = "";
@@ -75,7 +75,7 @@ async function fazerLogin() {
             window.location.href = "../index.html";
             
         } else {
-            alert("Email ou senha inválidos");
+            Toast.show("E-mail ou senha inválidos.", "error");
 
             document.getElementById("email-login").value = "";
             document.getElementById("senha-login").value = "";
