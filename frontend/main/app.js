@@ -69,9 +69,9 @@ function prepararEdicao(id) {
 
     if (plano) {
         document.getElementById("nomePlano").value = plano.nomePlano;
-        document.getElementById("metaValor").value = plano.metaValor;
-        document.getElementById("aporteMensal").value = plano.aporteMensal;
-        document.getElementById("taxaJuros").value = plano.taxaJurosAnual;
+        document.getElementById("metaValor").value = formatarNumero(plano.metaValor);
+        document.getElementById("aporteMensal").value = formatarNumero(plano.aporteMensal);
+        document.getElementById("taxaJuros").value = plano.taxaJurosAnual + "%";
 
         idEmEdicao = id;
         document.querySelector(".btn-save").innerText = "Atualizar Plano";
@@ -90,7 +90,8 @@ async function salvarPlano() {
     const meta = limparValorMoeda(metaRS);
     const aporte = limparValorMoeda(aporteRS);
 
-    const juros = parseFloat(document.getElementById("taxaJuros").value);
+    let valorJurosLimpo = document.getElementById("taxaJuros").value.replace(",", ".").replace("%", "");
+    const juros = parseFloat(valorJurosLimpo);
     
     // Validação extra simples antes de enviar
     if (isNaN(meta) || isNaN(aporte) || isNaN(juros)) {

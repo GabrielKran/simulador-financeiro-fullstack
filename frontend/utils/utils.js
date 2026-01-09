@@ -190,3 +190,15 @@ function limparValorMoeda(valorFormatado) {
     // Divide por 100 para voltar a ser um número decimal puro
     return parseFloat(apenasNumeros) / 100;
 }
+
+function mascaraPorcentagem(event) {
+    const input = event.target;
+    let valor = input.value.replace(/[^0-9,.]/g, "");
+
+    let valorNumerico = parseFloat(valor.replace(",", "."));
+    if (valorNumerico > 100) {
+        valor = "100"; // Trava em 100 se passar
+    }
+
+    input.value = input.value + "%";
+}
