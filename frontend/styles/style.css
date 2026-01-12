@@ -606,42 +606,14 @@ input {
     align-items: center;
 }
 
-/* --- RESPONSIVIDADE --- */
-@media (max-width: 768px) {
+/* =========================================
+   RESPONSIVIDADE E ADAPTAÇÃO
+   ========================================= */
 
-    /* TELA DA PÁGINA MAIN */
-    .dashboard-grid {
-        grid-template-columns: 1fr; /* Vira uma coluna só */
-    }
-
-    .nav button {
-        top: 8px;
-        right: 8px;
-        padding: 4px 12px;
-    }
-
-    .user-icon {
-        left: 8px;
-        top: 8px;
-        height: 25px;
-    }
-
-    .container {
-        margin-top: 30px;
-    }
-
-    .form-group {
-        grid-template-columns: 1fr; /* Deixa de dividir e ocupa tudo */
-    }
-
-    .btn-save {
-        grid-column: span 1; /* Reseta o botão para não buscar 2 colunas inexistentes */
-    }
-}
-
-    /* TELA DA PÁGINA DE DETALHES */
 /* --- AJUSTE PARA LAPTOPS E TELAS MÉDIAS (ex: 1366px) --- */
 @media (max-width: 1366px) {
+    
+    /* PÁGINA DE DETALHES */
     .dashboard-grid {
         /* Reduz a lateral para 320px para dar espaço ao gráfico */
         grid-template-columns: 320px 1fr; 
@@ -654,9 +626,62 @@ input {
 
 /* --- AJUSTE PARA TABLETS E MOBILE (max-width: 768px) --- */
 @media (max-width: 768px) {
-    /* ... (Mantenha aqui as regras anteriores do index/login) ... */
 
-    /* PÁGINA DE DETALHES */
+    /* ============================================================
+       1. GLOBAL & NAVEGAÇÃO
+       ============================================================ */
+    .nav button {
+        top: 8px;
+        right: 8px;
+        padding: 4px 12px;
+    }
+
+    .user-icon {
+        left: 8px;
+        top: 8px;
+        height: 25px;
+    }
+
+    /* ============================================================
+       2. PÁGINA DASHBOARD (LISTAGEM & MODAL)
+       ============================================================ */
+    .container {
+        margin-top: 30px;
+    }
+
+    /* --- FORMULÁRIOS / INPUTS (Ajuste de Toque) --- */
+    .form-group {
+        grid-template-columns: 1fr; /* Coluna única */
+        gap: 15px;
+    }
+
+    /* CORREÇÃO BLINDADA ANTI-VAZAMENTO */
+    input {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    .campo label {
+        margin-bottom: 8px;
+    }
+
+    .btn-save {
+        grid-column: span 1;
+        width: 100%;
+        box-sizing: border-box;
+        
+        padding: 15px;     
+        font-size: 1.1rem; 
+        margin-top: 10px;  
+    }
+
+    /* ============================================================
+       3. PÁGINA DE DETALHES
+       ============================================================ */
     .container-grid {
         width: 100%;
         padding: 10px;
