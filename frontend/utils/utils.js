@@ -16,6 +16,8 @@ async function fetchAuth(url, options = {}) {
 
         if ((resposta.status === 401 || resposta.status === 403) && !options.manualErrorHandling){
             
+            LoadingSystem.stop();
+
             await Modal.alert("Sessão Expirada", "Por motivos de segurança, faça login novamente.")
 
             localStorage.removeItem("token");
