@@ -229,9 +229,11 @@ input {
 .sidebar {
     position: fixed;
     top: 0;
-    left: -300px; /* Define que é na ESQUERDA */
+    left: -100%; /* Define que é na ESQUERDA */
     
-    width: 300px;
+    width: 85%;
+    max-width: 300px;
+
     height: 100%;
     background-color: white;
     box-shadow: 5px 0 15px rgba(0,0,0,0.2); /* Sombra para a direita */
@@ -604,7 +606,7 @@ input {
     align-items: center;
 }
 
-/* --- RESPONSIVIDADE (Para celular) --- */
+/* --- RESPONSIVIDADE DO INDEX.HTML --- */
 @media (max-width: 768px) {
     .dashboard-grid {
         grid-template-columns: 1fr; /* Vira uma coluna só */
@@ -614,5 +616,23 @@ input {
         top: 8px;
         right: 8px;
         padding: 4px 12px;
+    }
+
+    .user-icon {
+        left: 8px;
+        top: 8px;
+        height: 25px;
+    }
+
+    .container {
+        margin-top: 30px;
+    }
+
+    .form-group {
+        grid-template-columns: 1fr; /* Deixa de dividir e ocupa tudo */
+    }
+
+    .btn-save {
+        grid-column: span 1; /* Reseta o botão para não buscar 2 colunas inexistentes */
     }
 }
