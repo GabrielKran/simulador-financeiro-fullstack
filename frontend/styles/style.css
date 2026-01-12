@@ -606,8 +606,10 @@ input {
     align-items: center;
 }
 
-/* --- RESPONSIVIDADE DO INDEX.HTML --- */
+/* --- RESPONSIVIDADE --- */
 @media (max-width: 768px) {
+
+    /* TELA DA PÁGINA MAIN */
     .dashboard-grid {
         grid-template-columns: 1fr; /* Vira uma coluna só */
     }
@@ -634,5 +636,75 @@ input {
 
     .btn-save {
         grid-column: span 1; /* Reseta o botão para não buscar 2 colunas inexistentes */
+    }
+}
+
+    /* TELA DA PÁGINA DE DETALHES */
+/* --- AJUSTE PARA LAPTOPS E TELAS MÉDIAS (ex: 1366px) --- */
+@media (max-width: 1366px) {
+    .dashboard-grid {
+        /* Reduz a lateral para 320px para dar espaço ao gráfico */
+        grid-template-columns: 320px 1fr; 
+    }
+    
+    .previsao-box .p-tempo {
+        font-size: 2.5rem;
+    }
+}
+
+/* --- AJUSTE PARA TABLETS E MOBILE (max-width: 768px) --- */
+@media (max-width: 768px) {
+    /* ... (Mantenha aqui as regras anteriores do index/login) ... */
+
+    /* PÁGINA DE DETALHES */
+    .container-grid {
+        width: 100%;
+        padding: 10px;
+        overflow-x: hidden;
+    }
+
+    .dashboard-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .resumo-lateral {
+        width: 100%;
+    }
+    
+    .info-box p {
+        font-size: 1.2rem;
+    }
+
+    .main-content {
+        width: 100%;
+    }
+
+    .previsao-box {
+        height: auto;
+        padding: 30px 15px;
+    }
+
+    .previsao-box .p-tempo {
+        font-size: 2.2rem;
+        line-height: 1.1;
+    }
+
+    .grafico-box {
+        height: 250px; 
+        width: 100%;
+        position: relative; /* Essencial para o Chart.js não vazar */
+    }
+    
+    .btn-back {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .header-detalhes h1 {
+        font-size: 1.5rem;
+        word-wrap: break-word;
     }
 }
